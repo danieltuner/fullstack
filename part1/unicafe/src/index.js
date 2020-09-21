@@ -8,6 +8,13 @@ const Statistics = (props) => {
     </div>
   )
 }
+const Button = ({handleClick, text}) => {
+  return (
+    <button onClick={handleClick}>
+      {text}
+    </button>
+  )
+}
 
 const App = (props) => {
   // save clicks of each button to own state
@@ -20,13 +27,7 @@ const App = (props) => {
   const increaseByOneBad = () => setBad(bad + 1)
   
 
-const Button = ({handleClick, text}) => {
-  return (
-    <button onClick={handleClick}>
-      {text}
-    </button>
-  )
-}
+
 if (good + neutral + bad === 0)
   return (
     <div>      
