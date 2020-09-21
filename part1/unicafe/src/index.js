@@ -10,6 +10,7 @@ const App = (props) => {
   const increaseByOneGood = () => setGood(good + 1)
   const increaseByOneNeutral = () => setNeutral(neutral + 1)
   const increaseByOneBad = () => setBad(bad + 1)
+  
 
 const Button = ({handleClick, text}) => {
   return (
@@ -37,7 +38,10 @@ const Button = ({handleClick, text}) => {
       <h1>statistics</h1>
       <p>good {good}</p>
       <p>neutral {neutral}</p>
-      <p>bad {bad}</p> 
+      <p>bad {bad}</p>
+      <p>all {good + neutral + bad}</p>
+      <p>average {(good - bad) / (good + neutral + bad) }</p>
+      <p>positive {(good/(good + neutral + bad) * 100)} %</p>
 
     </div>
   )
