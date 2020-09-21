@@ -27,7 +27,27 @@ const Button = ({handleClick, text}) => {
     </button>
   )
 }
-
+if (good + neutral + bad === 0)
+  return (
+    <div>      
+        <h1>give feedback</h1>
+        <Button
+          handleClick={increaseByOneGood}
+          text='good'
+        />
+        <Button
+          handleClick={increaseByOneNeutral}
+          text='neutral'
+        />     
+        <Button
+          handleClick={increaseByOneBad}
+          text='bad'
+        />
+        <h1>statistics</h1>
+        <p>No feedback given</p>
+    </div>
+  )
+     
   return (
     <div>
       <h1>give feedback</h1>
