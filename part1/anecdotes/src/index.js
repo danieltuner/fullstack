@@ -3,10 +3,17 @@ import ReactDOM from 'react-dom'
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const random = () => {
+    setSelected(Math.floor(Math.random() * 6))
+  }
 
   return (
     <div>
-      {props.anecdotes[selected]}
+      <p>{props.anecdotes[selected]}</p>
+      <Button
+        handleClick={random}
+        text='next anecdote'
+      />
     </div>
   )
 }
@@ -19,6 +26,14 @@ const anecdotes = [
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
+
+const Button = ({handleClick, text}) => {
+  return (
+    <button onClick={handleClick}>
+      {text}
+    </button>
+  )
+}
 
 ReactDOM.render(
   <App anecdotes={anecdotes} />,
