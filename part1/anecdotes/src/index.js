@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const random = () => {
-    setSelected(Math.floor(Math.random() * 6))
+    setSelected(Math.floor(Math.random() * anecdotes.length))
   }
 
   return (
