@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom'
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [addOne, setAddOne] = useState(0)
   const random = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
   }
-
+  const increaseByOne = () => setAddOne(addOne + 1)
+  console.log(props)
   return (
     <div>
       <p>{props.anecdotes[selected]}</p>
-      <Button
-        handleClick={random}
-        text='next anecdote'
-      />
+      <Button handleClick={increaseByOne} text='vote'/>
+      <Button handleClick={random} text='next anecdote'/>
     </div>
   )
 }
