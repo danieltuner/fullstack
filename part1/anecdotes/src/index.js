@@ -7,18 +7,18 @@ const App = (props) => {
   const random = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
   }
-  const vote = Array.apply(null, new Array(10)).map(Number.prototype.valueOf,0);
-  const [addVote, setAddVote] = useState(0)
-  const increaseByOne = () => setAddVote(addVote + 1)
-  const copy = { ...points }
-  copy[setAddVote] += 1
-  console.log(props)
+  
+  const [addVote, setAddVote] = useState(new Array(7).join('0').split('').map(parseFloat))
+  const increaseByOne = () => {const copy = [...points]
+  copy[score] += 1
+  }
+  
 
 
   return (
     <div>
       <p>{props.anecdotes[selected]}</p>
-      <p>has {points} votes</p>
+      <p>has {points[score]} votes</p>
       <Button handleClick={increaseByOne} text='vote'/>
       <Button handleClick={random} text='next anecdote'/>
     </div>
