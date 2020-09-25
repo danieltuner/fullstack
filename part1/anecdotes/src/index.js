@@ -13,10 +13,8 @@ const App = (props) => {
   copy[selected] += 1
   addPoints(copy)
   }
-  const HighestVote = () => {
-    let result = points.indexOf(Math.max(...points))
-    return (anecdotes[result])
-  }
+  const highestVote = points.indexOf(Math.max.apply(null, points))
+  
 
 
   return (
@@ -27,8 +25,8 @@ const App = (props) => {
       <Button handleClick={increaseByOne} text='vote'/>
       <Button handleClick={random} text='next anecdote'/>
       <h1>Anecdote with most votes</h1>
-      <HighestVote/>
-      <p>has {} votes</p>
+      <p>{props.anecdotes[highestVote]}</p>
+      <p>has {points[highestVote]} votes</p>
     </div>
   )
 }
