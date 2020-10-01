@@ -29,8 +29,7 @@ const App = () => {
     const personObject = {
       name: newName,
       number: newNumber,
-      date: new Date().toISOString(),
-      id: persons.length + 1,
+      date: new Date().toISOString()
     }
 
   if (persons.some(person => 
