@@ -6,7 +6,7 @@ const App = () => {
   const [ countries, setCountries ] = useState([])
   const [ newFilter, setNewFilter] = useState('')
 
-  const countries = (event) => {
+  /*const countries = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
     const countryObject = {

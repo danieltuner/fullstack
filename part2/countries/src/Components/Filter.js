@@ -3,7 +3,7 @@ import React from 'react';
 const Filter = ({newFilter, handleFilterChange}) => {
     return (
         <div>
-          filter shown with <input value={newFilter} 
+          find countries <input value={newFilter} 
           onChange={handleFilterChange}/>
         </div>
     )
