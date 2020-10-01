@@ -7,17 +7,16 @@ const App = () => {
 
 
 
-  /*const hook = () => {
-    console.log('effect')
-    axios
-      .get('https://restcountries.eu/rest/v2/all')
-      .then(response => {
-        console.log('promise fulfilled')
-        set'Persons'(response.data)
-      })
-  }
+  /* 
   
-  useEffect(hook, []) */
+  useEffect(() => {
+  console.log('effect')
+  axios
+    .get('https://restcountries.eu/rest/v2/all').then(response => {
+      console.log('promise fulfilled')
+      setCountries(response.data)
+    })
+}, [])*/
 
   return (
     <div>
