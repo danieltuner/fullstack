@@ -1,19 +1,24 @@
-/*import axios from 'axios'
-const baseUrl = 'https://restcountries.eu/rest/v2/all'
+import React from 'react';
+import Country from './Country'
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+const Countries = ({countries, newFilter, handleClick}) => {
+
+  const filterCountries = countries
+  .filter(nogo => nogo.name.toLowerCase().includes(newFilter.toLowerCase()))
+
+  if(filterCountries.length > 10) {
+    return 'Too many matches, specify another filter'
+    }
+    else if(filterCountries.length === 1) {
+      return <Country country={filterCountries[0]} />
+    }
+    else {
+      return (
+        <ul>
+          {filterCountries.map(nogo => <li key={nogo.alpha2Code}>{nogo.name} <button onClick={handleClick} value={nogo.name}>show</button></li>)}
+        </ul>
+      )
+    }
 }
 
-const create = newObject => {
-  const request = axios.post(baseUrl, newObject)
-  return request.then(response => response.data)
-}
-
-const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then(response => response.data)
-}
-
-export default { getAll, create, update } */
+export default Countries
