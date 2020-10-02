@@ -3,6 +3,7 @@ import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
 import Persons from './Components/Persons'
 import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -22,6 +23,14 @@ const App = () => {
   
   useEffect(hook, [])
 
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
+
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -39,6 +48,13 @@ const App = () => {
       setPersons(persons.concat(response.data))
       setNewName('')
     })
+
+    personService
+      .create(personObject)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName('')
+      })
 
   if (persons.some(person => 
     person.name === newName)) {
@@ -62,6 +78,7 @@ const App = () => {
     console.log(event.target.value)
     setNewNumber(event.target.value)
   }
+  
   const handleFilterChange = (event) => {
     console.log(event.target.value)
     setNewFilter(event.target.value)
