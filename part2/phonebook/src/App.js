@@ -64,6 +64,10 @@ const App = () => {
     console.log(event.target.value)
     setNewFilter(event.target.value)
   }
+  const handleClick = (event) => {
+    console.log(event.target.value)
+    setNewFilter(event.target.value)
+  }
 
   return (
     <div>
@@ -72,7 +76,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm addPerson={addPerson} handlePersonChange={handlePersonChange} handleNumberChange={handleNumberChange} name={newName} number={newNumber}/>
       <h2>Numbers</h2>           
-      <Persons persons={persons} newFilter={newFilter}/>
+      <Persons persons={persons} newFilter={newFilter} handleClick={handleClick}/>
     </div>
   )
 }
