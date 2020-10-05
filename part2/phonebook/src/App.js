@@ -20,6 +20,8 @@ const App = () => {
   }, [])
 
   const killPerson = (id) => {
+    const person = persons.find((person) => person.id === id);
+    if (window.confirm(`Delete ${person.name}?`)) 
     personService
     .kill(id)
     .then(response => {
