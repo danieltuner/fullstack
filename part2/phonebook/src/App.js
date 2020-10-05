@@ -22,12 +22,11 @@ const App = () => {
   const killPerson = (id) => {
     const person = persons.find((person) => person.id === id);
     if (window.confirm(`Delete ${person.name}?`)) 
-    personService
+    {personService
     .kill(id)
-    .then(response => {
-      const dead = persons.filter(nogo => id !==nogo.id)
-      setPersons(dead)
-    })
+    .then() 
+    setPersons(persons.filter(nogo => id !==nogo.id))
+    }
   }
 
   const addPerson = (event) => {
@@ -39,27 +38,39 @@ const App = () => {
       date: new Date().toISOString()
     }
 
-
-    personService
-      .create(personObject)
-      .then(returnedNote => {
-        setPersons(persons.concat(returnedNote))
-        setNewName('')
-      })
-
-  if (persons.some(person => 
-    person.name === newName)) {
-      window.alert(`${newName} is already added to phonebook`);
-    }
-    else
+  if (persons.every((person) => person.name.toLowerCase() !== newName.toLowerCase()))
     {
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')      
+      personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
+    }
+    
+
+  else if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
+    {
+      updateNumber(personObject)  
     }
 
   
   }
+
+  const updateNumber = (person) => {
+    const nextNumber = persons.find(nr => nr.name.toLowerCase() === person.name.toLowerCase()).id
+    person = {...person, id: nextNumber}
+
+    personService
+    .update(nextNumber, person)
+    .then(returnedPerson => {
+      setPersons(persons.map(nr => nr.id !== nextNumber ? nr : returnedPerson))
+      setNewName('')
+      setNewNumber('')
+    })
+  }
+
   const handlePersonChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
