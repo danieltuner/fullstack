@@ -11,7 +11,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [megaErrorMessage, setMegaErrorMessage] = useState(null)
 
   
   useEffect(() => {
@@ -59,11 +60,8 @@ const App = () => {
 
   else if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
     {
-      updateNumber(personObject)
-      
-    }
-
-  
+      updateNumber(personObject)      
+    }  
   }
 
   const updateNumber = (person) => {
@@ -80,7 +78,27 @@ const App = () => {
         setTimeout(() => {
           setErrorMessage(null)
         }, 2500)
+    
     })
+    .catch(error => {
+    if (error.response.status === 400)
+    {
+      setErrorMessage(error.response.data.errorMessage)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 2000)
+    }
+    else {
+      setPersons(persons.filter(nr => nr.id !== nextNumber))
+      setMegaErrorMessage(
+        `Information of '${person.name}' was already removed from server`)
+      setTimeout(() => {
+        setMegaErrorMessage(null)
+      }, 2500)
+      setNewName('')
+      setNewNumber('')
+    }
+    })  
   }
 
   const handlePersonChange = (event) => {
@@ -102,7 +120,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} error={megaErrorMessage} />
       <Filter value={newFilter} handleFilterChange={handleFilterChange}/>
       <h2>add a new</h2>
       <PersonForm addPerson={addPerson} handlePersonChange={handlePersonChange} handleNumberChange={handleNumberChange} name={newName} number={newNumber}/>
