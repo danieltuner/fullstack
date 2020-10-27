@@ -1,0 +1,22 @@
+{
+  "name": "bloglist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danieltuner/fullstack.git"
+  },
+  "keywords": [
+    "111"
+  ],
+  "author": "Daniel Tunér",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danieltuner/fullstack/issues"
+  },
+  "homepage": "https://github.com/danieltuner/fullstack#readme"
+}
