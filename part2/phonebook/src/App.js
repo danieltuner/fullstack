@@ -54,6 +54,11 @@ const App = () => {
         setTimeout(() => {
           setErrorMessage(null)
         }, 2500)
+      }).catch(error => {
+        setErrorMessage(error.response.data.error)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 6000)
       })
     }
     
@@ -83,7 +88,7 @@ const App = () => {
     .catch(error => {
     if (error.response.status === 400)
     {
-      setErrorMessage(error.response.data.errorMessage)
+      setErrorMessage(error.response.data.error)
       setTimeout(() => {
         setErrorMessage(null)
       }, 2000)
