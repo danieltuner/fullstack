@@ -18,5 +18,14 @@
   "bugs": {
     "url": "https://github.com/danieltuner/fullstack/issues"
   },
-  "homepage": "https://github.com/danieltuner/fullstack#readme"
+  "homepage": "https://github.com/danieltuner/fullstack#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }
