@@ -54,10 +54,10 @@ const App = () => {
         setTimeout(() => {
           setErrorMessage(null)
         }, 2500)
-      }).catch(errorA => {
-        setErrorMessage(errorA.response.body.error)
+      }).catch(error => {
+        setMegaErrorMessage(error.response.data.errorMessage)
         setTimeout(() => {
-          setErrorMessage(null)
+          setMegaErrorMessage(null)
         }, 6000)
       })
     }
