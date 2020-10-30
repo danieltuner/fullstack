@@ -8,6 +8,17 @@ const dummy = (blogs) => {
     }
     return bloglist.reduce(reducer, 0)
 }
+const favoriteBlog = (bloglist) => {
+    let favorite = bloglist[0]
+    bloglist.forEach((blog) => {
+        if (blog.likes > favorite.likes) {
+            favorite = blog
+        }
+    })
+    delete favorite._id
+    delete favorite._v
+    return favorite
+}
   module.exports = {
-    dummy, totalLikes
+    dummy, totalLikes, favoriteBlog
   }

@@ -79,6 +79,18 @@ describe('total likes', () => {
         const result = listHelper.totalLikes(bloglist)
         expect(result).toBe(36)
     })
+})
 
-
-}) 
+describe('favorite blog', () => {
+    test('if blog is identified correctly', () => {
+        const result = listHelper.favoriteBlog(bloglist)
+        const expectedBlog = {
+            title: "Canonical string reduction",
+            author: "Edsger W. Dijkstra",
+            url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+            likes: 12,
+            __v: 0
+        }
+        expect(result).toEqual(expectedBlog)
+    })
+})
