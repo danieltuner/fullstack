@@ -11,8 +11,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [megaErrorMessage, setMegaErrorMessage] = useState(null)
+  const [error, setError] = useState(null)
+  const [message, setMessage] = useState(null)
 
   
   useEffect(() => {
@@ -50,14 +50,14 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
-        setErrorMessage(`Added ${returnedPerson.name}`)
+        setMessage(`Added ${returnedPerson.name}`)
         setTimeout(() => {
-          setErrorMessage(null)
+          setMessage(null)
         }, 2500)
       }).catch(error => {
-        setMegaErrorMessage(error.response.data.errorMessage)
+        setError(error.response.data.errorMessage)
         setTimeout(() => {
-          setMegaErrorMessage(null)
+          setError(null)
         }, 6000)
       })
     }
@@ -79,26 +79,26 @@ const App = () => {
       setPersons(persons.map(nr => nr.id !== nextNumber ? nr : returnedPerson))
       setNewName('')
       setNewNumber('')
-      setErrorMessage(`Changed ${returnedPerson.name} number to ${newNumber}`)
+      setMessage(`Changed ${returnedPerson.name} number to ${newNumber}`)
         setTimeout(() => {
-          setErrorMessage(null)
+          setMessage(null)
         }, 2500)
     
     })
     .catch(error => {
     if (error.response.status === 400)
     {
-      setErrorMessage(error.response.data.error)
+      setMessage(error.response.data.error)
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 2000)
     }
     else {
       setPersons(persons.filter(nr => nr.id !== nextNumber))
-      setMegaErrorMessage(
+      setError(
         `Information of '${person.name}' was already removed from server`)
       setTimeout(() => {
-        setMegaErrorMessage(null)
+        setError(null)
       }, 2500)
       setNewName('')
       setNewNumber('')
@@ -125,7 +125,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} error={megaErrorMessage} />
+      <Notification message={message} error={error} />
       <Filter value={newFilter} handleFilterChange={handleFilterChange}/>
       <h2>add a new</h2>
       <PersonForm addPerson={addPerson} handlePersonChange={handlePersonChange} handleNumberChange={handleNumberChange} name={newName} number={newNumber}/>

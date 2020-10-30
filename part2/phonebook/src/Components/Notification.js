@@ -7,7 +7,7 @@ const Notification = ({ message, error }) => {
     else if (message !== null)
     {
         return (
-            <div className="error">
+            <div className="message">
               {message}
             </div>
           )
@@ -15,7 +15,7 @@ const Notification = ({ message, error }) => {
     else if (error !== null)
     {
         return (
-            <div className="megaError">
+            <div className="error">
               {error}
             </div>
           )
