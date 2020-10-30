@@ -23,16 +23,7 @@ const App = () => {
       })
   }, [])
 
-  const killPerson = (id) => {
-    const person = persons.find((person) => person.id === id);
-    if (window.confirm(`Delete ${person.name}?`)) 
-    {personService
-    .kill(id)
-    .then() 
-    setPersons(persons.filter(nogo => id !==nogo.id))
-    }
-  }
-
+  
   const addPerson = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
@@ -54,8 +45,8 @@ const App = () => {
         setTimeout(() => {
           setMessage(null)
         }, 2500)
-      }).catch(error => {
-        setError(error.response.data.errorMessage)
+      }).catch(e => {
+        setError(e.response.data.error)
         setTimeout(() => {
           setError(null)
         }, 6000)
@@ -85,10 +76,10 @@ const App = () => {
         }, 2500)
     
     })
-    .catch(error => {
-    if (error.response.status === 400)
+    .catch(e => {
+    if (e.response.status === 400)
     {
-      setMessage(error.response.data.error)
+      setMessage(e.response.data.error)
       setTimeout(() => {
         setMessage(null)
       }, 2000)
@@ -104,6 +95,16 @@ const App = () => {
       setNewNumber('')
     }
     })  
+  }
+
+  const killPerson = (id) => {
+    const person = persons.find((person) => person.id === id);
+    if (window.confirm(`Delete ${person.name}?`)) 
+    {personService
+    .kill(id)
+    .then() 
+    setPersons(persons.filter(nogo => id !==nogo.id))
+    }
   }
 
   const handlePersonChange = (event) => {
