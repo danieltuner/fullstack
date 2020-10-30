@@ -44,7 +44,7 @@ const App = () => {
 
     // !persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase())
   // persons.every((p) => p.name.toLowerCase() !== newName.toLowerCase())
-  if (!persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase())))
+  if (persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase())))
     {
       personService
       .create(personObject)
