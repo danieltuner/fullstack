@@ -42,9 +42,9 @@ const App = () => {
       date: new Date().toISOString()
     }
 
-  if (!persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase()))
-  // !persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase())
+    // !persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase())
   // persons.every((p) => p.name.toLowerCase() !== newName.toLowerCase())
+  if (!persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase())))
     {
       personService
       .create(personObject)
