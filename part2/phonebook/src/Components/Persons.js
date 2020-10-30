@@ -2,7 +2,7 @@ import React from 'react'
 
 const Persons = ({persons, newFilter, killPerson}) => {
     const filterPersons = persons
-    .filter(nogo =>
+    .newFilter(nogo =>
     nogo.name.toLowerCase().includes(newFilter.toLowerCase()))
 
     return (

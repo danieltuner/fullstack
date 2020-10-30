@@ -42,7 +42,9 @@ const App = () => {
       date: new Date().toISOString()
     }
 
-  if (persons.every((person) => person.name.toLowerCase() !== newName.toLowerCase()))
+  if (!persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase()))
+  // !persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase())
+  // persons.every((p) => p.name.toLowerCase() !== newName.toLowerCase())
     {
       personService
       .create(personObject)
@@ -56,8 +58,7 @@ const App = () => {
         }, 2500)
         
       }).catch(e => {
-        console.log('what is e', e)
-        setError('what is this')
+        setError(e.response.data.error)
         setTimeout(() => {
           setError(null)
         }, 6000)
