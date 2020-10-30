@@ -23,7 +23,16 @@ const App = () => {
       })
   }, [])
 
-  
+  const killPerson = (id) => {
+    const person = persons.find((person) => person.id === id);
+    if (window.confirm(`Delete ${person.name}?`)) 
+    {personService
+    .kill(id)
+    .then() 
+    setPersons(persons.filter(nogo => id !==nogo.id))
+    }
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
@@ -56,7 +65,7 @@ const App = () => {
 
   else if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
     {
-      updateNumber(personObject)      
+      updateNumber(personObject)
     }  
   }
 
@@ -95,16 +104,6 @@ const App = () => {
       setNewNumber('')
     }
     })  
-  }
-
-  const killPerson = (id) => {
-    const person = persons.find((person) => person.id === id);
-    if (window.confirm(`Delete ${person.name}?`)) 
-    {personService
-    .kill(id)
-    .then() 
-    setPersons(persons.filter(nogo => id !==nogo.id))
-    }
   }
 
   const handlePersonChange = (event) => {
