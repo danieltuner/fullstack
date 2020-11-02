@@ -8,6 +8,7 @@ const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
 
 
+
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(result => {
     console.log('connected to MongoDB')
