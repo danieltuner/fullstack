@@ -17,6 +17,12 @@ const testBlogs = [
         author: "The Family Car",
         url: "www.volvo.com",
         likes: 135
+    },
+    {
+        title: 'Toyota',
+        author: "The Automobile",
+        url: "www.toyota.com",
+        likes: 334
     }
 
 ]
@@ -25,8 +31,10 @@ const testBlogs = [
 beforeEach(async () => {
     await Blog.deleteMany({})
 
-    let blogObject = new Blog(testBlogs[0])
-    await blogObject.save()
+    for (let blog of testBlogs) {
+        let blogObject = new Blog(blog)
+        await blogObject.save()
+    }
 
   })
 
@@ -46,6 +54,29 @@ test('all blogs are returned', async () => {
     expect(response.body[0].id).toBeDefined()
   })
 
+  test('a new blog is added', async () => {
+    const newBlog = {
+        title: 'new car blog',
+        author: "Toyota",
+        url: "www.toyota.com",
+        likes: 334
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const bloglist = await Blog.find({})
+    expect(bloglist).toHaveLength(testBlogs.length + 1)
+    const authors = bloglist.map(blog => blog.author)
+    expect(authors).toContain(newBlog.author)
+
+
+  })
+
 afterAll(() => {
   mongoose.connection.close()
 })
+
