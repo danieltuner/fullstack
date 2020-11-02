@@ -7,11 +7,17 @@ const Blog = require('../models/blog')
 
 const testBlogs = [
     {
-        title: 'test',
-        author: "The Name",
-        url: "www.address.com",
-        likes: 35
+        title: 'BMW',
+        author: "The Car",
+        url: "www.bmw.com",
+        likes: 230
     },
+    {
+        title: 'Volvo',
+        author: "The Family Car",
+        url: "www.volvo.com",
+        likes: 135
+    }
 
 ]
 
@@ -33,6 +39,11 @@ test('blogs are returned as json', async () => {
 
 test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
+  })
+
+  test('verifies unique id', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body[0].id).toBeDefined()
   })
 
 afterAll(() => {
