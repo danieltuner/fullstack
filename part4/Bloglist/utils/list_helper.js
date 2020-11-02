@@ -37,6 +37,20 @@ const mostBlogs = (bloglist) => {
   return sortedAuthorList.pop()
 }
 
+const mostLikes = (bloglist) => {
+  const groupedByAuthor = lodash.groupBy(bloglist, blog => blog.author)
+  const authorList = []
+  lodash.forEach(groupedByAuthor, (authorBlogs, author) => {
+      authorList.push({
+          author: author,
+          likes: totalLikes(authorBlogs)
+      })
+  })
+
+  const sortedAuthorList = lodash.sortBy(authorList, author => author.likes)
+  return sortedAuthorList.pop()
+}
+
   module.exports = {
-    dummy, totalLikes, favoriteBlog, mostBlogs
+    dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
   }
