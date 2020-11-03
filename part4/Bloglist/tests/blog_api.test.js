@@ -76,6 +76,24 @@ test('all blogs are returned', async () => {
 
   })
 
+  test('with no likes, default is 0', async () => {
+    const newBlog = {
+        title: 'No one likes Lada',
+        author: "Lada",
+        url: "www.lada.ru",
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+   const bloglist = await Blog.find({})
+
+   expect(bloglist[testBlogs.length].likes).toBe(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
