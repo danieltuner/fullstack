@@ -94,6 +94,21 @@ test('all blogs are returned', async () => {
    expect(bloglist[testBlogs.length].likes).toBe(0)
 })
 
+test('blog must have title and url', async () => {
+  const newBlog = {
+      author: "Koenigsegg"
+  }
+
+  await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+  const bloglist = await Blog.find({})
+
+  expect(bloglist).toHaveLength(testBlogs.length)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
