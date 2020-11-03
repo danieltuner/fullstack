@@ -109,6 +109,25 @@ test('blog must have title and url', async () => {
   expect(bloglist).toHaveLength(testBlogs.length)
 })
 
+test('status code 204 works with valid id', async () => {
+  const bloglist = await Blog.find({})
+  const blogToDelete = bloglist[0]
+
+  await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .expect(204)
+
+  const blogsAtEnd = await Blog.find({})  
+
+  expect(blogsAtEnd).toHaveLength(
+    testBlogs.length - 1
+)
+
+  const blog = blogsAtEnd.map(blog => blog.title)
+
+  expect(blog).not.toContain(blogToDelete.title)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
