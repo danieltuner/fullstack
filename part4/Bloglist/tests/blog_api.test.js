@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-
+const bcrypt = require('bcrypt')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const testBlogs = [
     {
@@ -128,6 +129,61 @@ test('status code 204 works with valid id', async () => {
   expect(blog).not.toContain(blogToDelete.title)
 })
 
+beforeEach(async () => {
+  await User.deleteMany({})
+  const passwordHash = await bcrypt.hash('secretStuff', 10)
+  const user = new User({ username: 'root', passwordHash })
+  await user.save()
+})
+
+test('new user is created', async () => {
+  const usersStart = await User.find({})
+  const usersAtStart = await usersStart.map(u => u.toJSON())
+
+  const newUser = {
+    username: 'something',
+    name: 'Some One',
+    password: 'anything',
+  }
+
+  await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const usersEnd = await User.find({})
+  const usersAtEnd = await usersEnd.map(u => u.toJSON())
+  expect(usersAtEnd.length).toBe(usersAtStart.length + 1)
+
+  const usernames = usersAtEnd.map(u => u.username)
+  expect(usernames).toContain(newUser.username)
+})
+
+test('creation fails with proper statuscode and message if username already in system', async () => {
+  const usersStart= await User.find({})
+  const usersAtStart = await usersStart.map(u => u.toJSON())
+
+  const newUser = {
+    username: 'root',
+    name: 'Someone Else',
+    password: 'cryptonatic',
+}
+
+const result = await api
+.post('/api/users')
+.send(newUser)
+.expect(400)
+.expect('Content-Type', /application\/json/)
+
+expect(result.body.error).toContain('`username` to be unique')
+
+const usersEnd = await User.find({})
+const usersAtEnd = await usersEnd.map(u => u.toJSON())
+
+expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+})
 
 afterAll(() => {
   mongoose.connection.close()
