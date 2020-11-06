@@ -7,6 +7,8 @@ const blogsRouter = require('./controllers/blogs')
 const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
 const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
+
 require('express-async-errors')
 
 
@@ -28,5 +30,6 @@ app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
+app.use('/api/login', loginRouter)
 
 module.exports = app
