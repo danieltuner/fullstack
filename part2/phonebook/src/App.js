@@ -38,8 +38,7 @@ const App = () => {
     console.log('button clicked', event.target)
     const personObject = {
       name: newName,
-      number: newNumber,
-      date: new Date().toISOString()
+      number: newNumber
     }
 
     // !persons.map(person => person.name.toLowerCase().includes(newName.toLowerCase())
