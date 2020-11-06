@@ -12,8 +12,7 @@ const userSchema = mongoose.Schema({
       type: String
     },
   passwordHash: {
-      type: String,
-      required: true
+      type: String
     },
   bloglist: [
     {

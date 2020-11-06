@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "author": "en till",
-    "title": "bloggingtest",
-    "url": "www.ok.nu",
-    "likes": "2"
+    "author": "Top Gun",
+    "title": "over the moon",
+    "url": "www.HereWeGoAgain.net",
+    "likes": "4531"
 }
