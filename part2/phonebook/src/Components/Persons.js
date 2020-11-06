@@ -1,9 +1,10 @@
 import React from 'react'
 
 const Persons = ({persons, newFilter, killPerson}) => {
-    const filterPersons = persons
-    .filter(nogo =>
-    nogo.name.toLowerCase().includes(newFilter.toLowerCase()))
+    const filterPersons = newFilter === ''
+        ? persons
+        : persons.filter(nogo =>
+            nogo.name.toLowerCase().includes(newFilter.toLowerCase()))
 
     return (
         <div>{filterPersons.map(nogo => <div key={nogo.name}>{nogo.name} {nogo.number}
