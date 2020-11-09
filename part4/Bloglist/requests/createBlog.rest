@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld0d1eSIsImlkIjoiNWZhNTM4NmZjNWMzNzMyODVjYTI4OWUyIiwiaWF0IjoxNjA0NjYzNDE4fQ.aT9tcTENvVTlEDP_oCQRIV7ioCaejRCBuLQgd5KdoYs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld0d1eTIwIiwiaWQiOiI1ZmE5MGVjZGM1ZDZkYzFiNTg0MzhhN2YiLCJpYXQiOjE2MDQ5MTQ5MjN9.7-Wqgwwr3D1ShPOiJ6uLKtQTLGUuOD9I6JHv24rOtdo
 
 {
-    "author": "Top Gun",
-    "title": "over the moon",
-    "url": "www.HereWeGoAgain.net",
-    "likes": "4531"
+    "author": "Top 20",
+    "title": "20",
+    "url": "www.20.net",
+    "likes": "20"
 }
