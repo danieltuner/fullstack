@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+.error {
+  color: red;
+  background: rgb(233, 182, 107);
+  font-size: 25px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  color: green;
+  background: rgb(233, 182, 107);
+  font-size: 25px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,6 +13,8 @@ const App = () => {
   const [newBlogTitle, setNewBlogTitle] = useState('')
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('')
+  const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -23,6 +27,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -41,7 +46,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
+      setErrorMessage('Wrong username or password, please try again.')
       setTimeout(() => {
+      setErrorMessage(null)
       }, 4000)
     }
   }
@@ -58,9 +65,13 @@ const App = () => {
       .create(blogObject)
       .then(savedBlog => {
         setBlogs(blogs.concat(savedBlog))
+        setMessage(`The new blog: ${newBlogTitle}, was added by ${newBlogAuthor}.`)
         setNewBlogTitle('')
         setNewBlogAuthor('')
         setNewBlogUrl('')
+        setTimeout(() => {
+          setMessage(null)
+        }, 4000)
       })
   }
 
@@ -68,6 +79,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in: </h2>
+        <Notification message={message} errorMessage={errorMessage} />
         <form onSubmit={handleLogin}>
         <div>
           username
@@ -96,6 +108,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={message} errorMessage={errorMessage} />
       <p>{user.name}, login successful!
       <button onClick={() => {
         window.localStorage.removeItem('loggedBlogappUser')
