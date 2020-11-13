@@ -49,17 +49,13 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       setErrorMessage('Wrong username or password, please try again.')
+      setUsername('')
+      setPassword('')
       setTimeout(() => {
       setErrorMessage(null)
       }, 4000)
     }
   }
-
-  const blogForm = () => (
-    <Togglable buttonLabel='New Blog' ref={blogFormRef}>
-      <BlogForm createBlog={addBlog} />
-    </Togglable>
-  )
 
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
@@ -74,11 +70,23 @@ const App = () => {
       })
   }
 
+  const updateBlog = (id, blogObject) => {
+    const blogToUpdate = blogs.find(blog => blog.id === id)
+    blogService
+    .update(id, blogObject)
+    .then(returnedBlog => {
+      returnedBlog.user = blogToUpdate.user
+      setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+    })
+    .catch(error => {
+      console.log("error")
+    })
+  }
+
   if (user === null) {
     return (
       <div>
         <Notification message={message} errorMessage={errorMessage} />
-        <Togglable buttonLabel='login'>
         <LoginForm
             username={username}
             password={password}
@@ -86,7 +94,6 @@ const App = () => {
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
           />
-          </Togglable>
       </div>
     )
   }
@@ -100,10 +107,14 @@ const App = () => {
         window.localStorage.removeItem('loggedBlogappUser')
         setUser(null)
       }}>logout</button></p>
-      
-      {blogForm()}
+      <div>
+        <Togglable buttonLabel='New Blog' ref={blogFormRef}>
+      <BlogForm createBlog={addBlog} />
+        </Togglable>
+          </div>      
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog}
+        updateBlog={updateBlog} />
       )}
     </div>
   )
