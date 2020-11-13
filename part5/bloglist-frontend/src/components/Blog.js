@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog,  updateBlog, user }) => {
+const Blog = ({ blog,  updateBlog, user, deleteBlog }) => {
   const [viewInfo, setViewInfo] = useState(false)
 
-
-  const hideViewInfo = { display: viewInfo ? 'none' : '' }
-  const showViewInfo = { display: viewInfo ? '' : 'none' }
 
   const blogStyle = {
     paddingTop: 10,
@@ -26,21 +23,40 @@ const Blog = ({ blog,  updateBlog, user }) => {
     const id = blog.id
     updateBlog(id, blogObject)
   }
+  const handleDeleteClick = () => {
+    deleteBlog(blog.id, blog.title, blog.author)
+  }
 
   return (
-    <div style={blogStyle}>
-      <div style={hideViewInfo}>
+    <div style={blogStyle} className="blog" >
+      <div>
         {blog.title} by {blog.author}
-         <button onClick={() => setViewInfo(true)}>view</button>
+        <button onClick={() => setViewInfo(!viewInfo)}>{viewInfo === true ? 'hide' : 'view'}</button>
       </div>
-      <div style={showViewInfo}>
-        {blog.title} by {blog.author} 
-        <button onClick={() => setViewInfo(false)}>hide</button>
-        <div>{blog.url}</div>
-        <div>likes {blog.likes} <button onClick={() => {handleClick()}}>like</button></div> 
-       <div>{blog.user.name}</div>
-      </div>
+      {viewInfo === true ?
+        <div>
+          <div>
+            {blog.url}
+          </div>
+          <div>
+            Likes: {blog.likes}
+            <button onClick={() => {handleClick()}}>like</button>
+          </div>
+          <div>
+            {blog.user.name}
+          </div>
+          {user.name === blog.user.name ?
+            <div>
+              <button onClick={() => handleDeleteClick()}>Remove</button>
+            </div>
+            :
+            null
+          }
+        </div>
+        :
+        null
+      }
     </div>
   )
-} 
+}
 export default Blog

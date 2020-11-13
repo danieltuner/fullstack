@@ -89,6 +89,25 @@ const App = () => {
     })
   }
 
+  const deleteBlog = (id) => {
+    const blog = blogs.find(b => b.id === id)
+    const confMessage = (window.confirm(`Delete: ${blog.title} by ${blog.author}?`))
+    if(confMessage) {
+      blogService
+      .kill(id)
+      .then(() => {
+        setBlogs(blogs.filter(b => id !== b.id))
+        setMessage(`${blog.title} was deleted!`)
+        setTimeout(() => {
+          setMessage(null)
+      }, 5000)
+    })
+    }
+    else {
+      return null
+    }
+  }
+
   if (user === null) {
     return (
       <div>
@@ -120,7 +139,7 @@ const App = () => {
           </div>      
       {sortBlogs(blogs).map(blog =>
         <Blog key={blog.id} blog={blog}
-        updateBlog={updateBlog} />
+        updateBlog={updateBlog} user={user} deleteBlog={deleteBlog} />
       )}
     </div>
   )
