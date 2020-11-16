@@ -68,6 +68,21 @@ describe('Blog app', function () {
       cy.get('#likes').contains(1)
 
     })
+
+    it('Delete the blog', function() {
+      cy.contains('New Blog').click()
+      cy.get('#title').type('Cypress tree')
+      cy.get('#author').type('Tree hugger')
+      cy.get('#url').type('www.HuggACypress.com')
+      cy.get('#create-button').click()
+
+      cy.contains('view').click()
+
+      cy.contains('Cypress tree')
+      cy.get('#Remove-button').click()
+      cy.get('html').should('not.have.value', 'Cypress tree')
+
+    })
   })
 
 })
