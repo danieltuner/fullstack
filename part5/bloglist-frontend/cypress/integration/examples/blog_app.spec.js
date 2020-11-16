@@ -37,4 +37,24 @@ describe('Blog app', function () {
     })
   })
 
+  describe('When logged in', function () {
+    beforeEach(function() {
+      cy.get('#username').type('newGuy')
+      cy.get('#password').type('new')
+      cy.get('#login-button').click()
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('New Blog').click()
+      cy.get('#title').type('Cypress tree')
+      cy.get('#author').type('Tree hugger')
+      cy.get('#url').type('www.HuggACypress.com')
+      cy.get('#create-button').click()
+
+      cy.contains('Cypress tree')
+      cy.contains('Tree hugger')
+
+    })
+  })
+
 })
