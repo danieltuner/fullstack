@@ -37,7 +37,7 @@ describe('Blog app', function () {
     })
   })
 
-  describe('When logged in', function () {
+  describe.only('When logged in', function () {
     beforeEach(function() {
       cy.get('#username').type('newGuy')
       cy.get('#password').type('new')
@@ -53,6 +53,19 @@ describe('Blog app', function () {
 
       cy.contains('Cypress tree')
       cy.contains('Tree hugger')
+
+    })
+
+    it('User can like blog', function() {
+      cy.contains('New Blog').click()
+      cy.get('#title').type('Cypress tree')
+      cy.get('#author').type('Tree hugger')
+      cy.get('#url').type('www.HuggACypress.com')
+      cy.get('#create-button').click()
+
+      cy.contains('view').click()
+      cy.get('#like-button').click()
+      cy.get('#likes').contains(1)
 
     })
   })
