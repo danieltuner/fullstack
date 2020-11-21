@@ -81,6 +81,11 @@ const CreateNew = (props) => {
     })
     history.push('/')
   }
+  const resetAll = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
 
   return (
     <div>
@@ -99,6 +104,7 @@ const CreateNew = (props) => {
           <input {...info} name='info' />
         </div>
         <button>create</button>
+        <button type="button" onClick={resetAll}>reset</button>
       </form>
     </div>
   )
