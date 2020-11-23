@@ -3,13 +3,11 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
-
-import blogService from './services/blogs'
 import loginService from './services/login'
 import storage from './utils/storage'
 import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from './reducers/notificationReducer'
-import { initializeBlogs, createBlogs } from './reducers/blogReducer'
+import { initializeBlogs, createBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -53,30 +51,27 @@ const App = () => {
 
   const createBlog = async (blog) => {
     try {
-      const newBlog = await blogService.create(blog)
       blogFormRef.current.toggleVisibility()
-      dispatch(createBlogs(newBlog))
-      notifyWith(`a new blog '${newBlog.title}' by ${newBlog.author} added!`)
+      dispatch(createBlogs(blog))
+      notifyWith(`a new blog '${blog.title}' by ${blog.author} added!`)
     } catch(exception) {
       console.log(exception)
     }
   }
 
-  const handleLike = async () => {
-    /*const blogToLike = blogs.find(b => b.id === id)
+  const handleLike = async (id) => {
+    const blogToLike = blogs.find(b => b.id === id)
     const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
-    await blogService.update(likedBlog)
-    setBlogs(blogs.map(b => b.id === id ?  { ...blogToLike, likes: blogToLike.likes + 1 } : b))*/
+    dispatch(likeBlog(likedBlog))
   }
 
-  const handleRemove = async () => {
-    /*const blogToRemove = blogs.find(b => b.id === id)
+  const handleRemove = async (id) => {
+    const blogToRemove = blogs.find(b => b.id === id)
     const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
     if (ok) {
-      await blogService.remove(id)
-      setBlogs(blogs.filter(b => b.id !== id))
+      dispatch(removeBlog(blogToRemove.id))
+      notifyWith(`Deleted blog: ${blogToRemove.title} by ${blogToRemove.author}.`)
     }
-    notifyWith(`Deleted blog: ${blogToRemove.title} by ${blogToRemove.author}.`)*/
   }
 
   const handleLogout = () => {

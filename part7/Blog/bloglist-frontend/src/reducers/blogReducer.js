@@ -10,6 +10,18 @@ const blogReducer = (state = [], action) => {
   case 'CREATE_BLOG': {
     return [...state, action.data]
   }
+  case 'LIKE': {
+    const id = action.data.id
+    const changeBlog = state.find(n => n.id === id)
+    const likeBlog = { ...changeBlog, likes: changeBlog.likes + 1 }
+    return state.map(b =>
+      b.id !== id ? b : likeBlog
+    )
+  }
+  case 'REMOVE': {
+    const id = action.data
+    return state.filter(a => a.id !== id)
+  }
   default:
     return state
   }
@@ -41,6 +53,26 @@ export const createBlogs = (content) => {
     dispatch({
       type: 'CREATE_BLOG',
       data
+    })
+  }
+}
+
+export const likeBlog = (blog) => {
+  return async dispatch => {
+    const data = await blogService.update(blog)
+    dispatch({
+      type: 'LIKE',
+      data
+    })
+  }
+}
+
+export const removeBlog = (id) => {
+  return async dispatch => {
+    await blogService.remove(id)
+    dispatch({
+      type: 'REMOVE',
+      data: id,
     })
   }
 }
