@@ -3,13 +3,15 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
+import CommentForm from './components/CommentForm'
 import loginService from './services/login'
+import blogService from './services/blogs'
+import usersService from './services/users'
 import storage from './utils/storage'
 import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from './reducers/notificationReducer'
 import { initializeBlogs, createBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
 import { loginUser, logoutUser } from './reducers/userReducer'
-import usersService from './services/users'
 import { initializeUsers } from './reducers/usersReducer'
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch } from 'react-router-dom'
 
@@ -61,6 +63,22 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
       dispatch(createBlogs(blog))
       notifyWith(`a new blog '${blog.title}' by ${blog.author} added!`)
+    } catch(exception) {
+      console.log(exception)
+    }
+  }
+
+  const postComment = async (comment) => {
+    const id = identifyBlog.id
+    try {
+      const newComment = { 'comment': comment }
+      await blogService.comment(newComment, id)
+
+      notifyWith(`Commented the blog: ${id} with: ${comment}`)
+      dispatch(initializeBlogs(blogs.map(b => b.id === id
+        ? { ...identifyBlog, comments: identifyBlog.comments.concat(comment) }
+        : b
+      )))
     } catch(exception) {
       console.log(exception)
     }
@@ -156,6 +174,16 @@ const App = () => {
         <a href={identifyBlog.url}>{identifyBlog.url}</a>
         <div>{identifyBlog.likes} likes <button onClick={() => handleLike(identifyBlog.id)}>like</button></div>
         <div>added by {identifyBlog.author}</div>
+        <h3>Comments:</h3>
+        <CommentForm
+          sendComment = {postComment}
+          id = {identifyBlog.id}
+        />
+        <ul>
+          {identifyBlog.comments.map((comment, index) =>
+            <li key={index}>{comment}</li>
+          )}
+        </ul>
       </>
     )
   }
