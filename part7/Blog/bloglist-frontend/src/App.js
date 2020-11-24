@@ -90,6 +90,11 @@ const App = () => {
     ? users.find(user => user.id === (identify.params.id))
     : null
 
+  const blogIdentifier = useRouteMatch('/blogs/:id')
+  const identifyBlog = blogIdentifier
+    ? blogs.find(user => user.id === (blogIdentifier.params.id))
+    : null
+
   if ( !user ) {
     return (
       <div>
@@ -140,6 +145,20 @@ const App = () => {
       )}
     return
   }
+  const BlogPage =() => {
+    if(!identifyBlog) {
+      return null
+    }
+
+    return (
+      <>
+        <h2>{identifyBlog.title} {identifyBlog.author}</h2>
+        <a href={identifyBlog.url}>{identifyBlog.url}</a>
+        <div>{identifyBlog.likes} likes <button onClick={() => handleLike(identifyBlog.id)}>like</button></div>
+        <div>added by {identifyBlog.author}</div>
+      </>
+    )
+  }
 
   return (
     <div>
@@ -165,6 +184,9 @@ const App = () => {
                 {users.map(user => <tr key={user.id}><td><Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td></tr>)}
               </tbody>
             </table>
+          </Route>
+          <Route path="/blogs/:id">
+            <BlogPage/>
           </Route>
           <Route path="/">
             <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
