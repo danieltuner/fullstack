@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Button } from 'react-bootstrap'
 
 
 const CommentForm = (props) => {
@@ -11,7 +12,7 @@ const CommentForm = (props) => {
         value={ comment }
         onChange={({ target }) => setComment(target.value)}
       />
-      <button onClick={e => { e.preventDefault(); props.sendComment(comment) }}>Add comment</button>
+      <Button variant='success' type='submit' onClick={e => { e.preventDefault(); props.sendComment(comment) }}>Add comment:</Button>
     </form>
   )
 }

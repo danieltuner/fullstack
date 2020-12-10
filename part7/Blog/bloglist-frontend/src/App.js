@@ -14,6 +14,8 @@ import { initializeBlogs, createBlogs, likeBlog, removeBlog } from './reducers/b
 import { loginUser, logoutUser } from './reducers/userReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch } from 'react-router-dom'
+import { Table, Button, Nav, Navbar  } from 'react-bootstrap'
+import Container from '@material-ui/core/Container'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -115,7 +117,7 @@ const App = () => {
 
   if ( !user ) {
     return (
-      <div>
+      <div className="container">
         <h2>login to application</h2>
 
         <Notification />
@@ -174,6 +176,8 @@ const App = () => {
         <a href={identifyBlog.url}>{identifyBlog.url}</a>
         <div>{identifyBlog.likes} likes <button onClick={() => handleLike(identifyBlog.id)}>like</button></div>
         <div>added by {identifyBlog.author}</div>
+        <div>
+          {user.username === identifyBlog.user.username && <button onClick={() => handleRemove(identifyBlog.id)}>remove</button>}</div>
         <h3>Comments:</h3>
         <CommentForm
           sendComment = {postComment}
@@ -188,62 +192,77 @@ const App = () => {
     )
   }
   const padding = {
-    padding: 5,
-    marginTop: 20,
-    marginRight: 20
+    padding: 4,
+    marginTop: 15,
+    marginRight: 15
   }
   const paddingButton = {
-    padding: 5,
-    marginTop: 20
+    padding: 4,
+    marginTop: 15
   }
 
   return (
     <div>
-      <Router>
-        <div>
-          <Link style={padding} to="/">blogs</Link>
-          <Link style={padding} to="/users">users</Link>
-          {user.name} logged in <button style={paddingButton} onClick={handleLogout}>logout</button>
-        </div>
-        <h2>blog app</h2>
+      <Container fixed>
+        <Router>
+          <div>
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+              <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="mr-auto">
+                  <Nav.Link href="#" as="span">
+                    <Link style={padding} to="/">blogs</Link>
+                  </Nav.Link>
+                  <Nav.Link href="#" as="span">
+                    <Link style={padding} to="/users">users</Link>
+                  </Nav.Link>
+                  <Nav.Link href="#" as="span">
+                    {user.name} logged in <Button style={paddingButton}  onClick={handleLogout}>logout</Button>
+                  </Nav.Link>
+                </Nav>
+              </Navbar.Collapse>
+            </Navbar>
+          </div>
+          <h2>blog app</h2>
 
-        <Notification />
+          <Notification />
 
-        <Switch>
-          <Route path="/users/:id">
-            <User user={identifyUser}/>
-          </Route>
-          <Route path="/users">
-            <h4>Users</h4>
-            <table>
-              <thead>
-                <tr><th></th><th>blogs created</th></tr>
-              </thead>
-              <tbody>
-                {users.map(user => <tr key={user.id}><td><Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td></tr>)}
-              </tbody>
-            </table>
-          </Route>
-          <Route path="/blogs/:id">
-            <BlogPage/>
-          </Route>
-          <Route path="/">
-            <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
-              <NewBlog createBlog={createBlog} />
-            </Togglable>
+          <Switch>
+            <Route path="/users/:id">
+              <User user={identifyUser}/>
+            </Route>
+            <Route path="/users">
+              <h4>Users</h4>
+              <Table striped>
+                <thead>
+                  <tr><th></th><th>blogs created</th></tr>
+                </thead>
+                <tbody>
+                  {users.map(user => <tr key={user.id}><td><Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td></tr>)}
+                </tbody>
+              </Table>
+            </Route>
+            <Route path="/blogs/:id">
+              <BlogPage/>
+            </Route>
+            <Route path="/">
+              <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
+                <NewBlog createBlog={createBlog} />
+              </Togglable>
 
-            {blogs.sort(byLikes).map(blog =>
-              <Blog
-                key={blog.id}
-                blog={blog}
-                handleLike={handleLike}
-                handleRemove={handleRemove}
-                own={user.username===blog.user.username}
-              />
-            )}
-          </Route>
-        </Switch>
-      </Router>
+              {blogs.sort(byLikes).map(blog =>
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  handleLike={handleLike}
+                  handleRemove={handleRemove}
+                  own={user.username===blog.user.username}
+                />
+              )}
+            </Route>
+          </Switch>
+        </Router>
+      </Container>
     </div>
   )
 }
